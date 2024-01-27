@@ -3,6 +3,7 @@ class Tile:
     def __init__(self, image):
         self.pixels = list(image.getdata())
 
+    # Can precompute this on initialization to cache and enforce immutability
     def to_gb_bytes(self):
         number_of_rows = int(len(self.pixels) / 8)
         byte_list = []
@@ -14,6 +15,17 @@ class Tile:
             byte_list.append(lhs_byte)
             byte_list.append(rhs_byte)
         return byte_list
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    def __key(self):
+        return tuple(self.to_gb_bytes())
+
+    def __eq__(self, other):
+        if isinstance(other, Tile):
+            return self.__key() == other.__key()
+        return NotImplemented
 
     def _bitmasks(self, value):
         if value == 0:
