@@ -43,6 +43,9 @@ for infile in sys.argv[1:]:
         width, height = im.size
 
         if width%8==0 and height%8==0:
+
+            tile_list = []
+            
             
             for y in range(0, height//8):    
                 for x in range(0, width//8):
